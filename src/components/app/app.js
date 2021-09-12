@@ -8,6 +8,11 @@ import PostAddForm from '../post-add-form';
 
 import './app.css';
 
+const data = [
+    {label: 'Going to learn React', important: false, id: 'awdaw'},
+    {label: 'That is so good', important: false, id: 'wads'},
+    {label: 'I need a break...', important: false, id: 'scxc'}
+];
 
 const App = () => { // компонент с приложением
     return (
@@ -17,7 +22,7 @@ const App = () => { // компонент с приложением
             <SearchPanel/>
             <PostStatusFilter/>
             </div>
-            <PostList/>
+            <PostList posts={data}/>
             <PostAddForm/>
         </div>
     )
