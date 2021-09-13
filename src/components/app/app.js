@@ -45,7 +45,14 @@ export default class App extends Component { // компонент с прило
             })
         }
         this.toggleImportant = (id) => {
-            console.log(`Important ${id}`);
+            this.setState(({data}) => {
+                const index = data.findIndex(elem => elem.id === id);
+                const oldObj = data[index];
+                const newObj = {...oldObj, important : !oldObj.important}
+                const newArr = [...data.slice(0, index), newObj, ...data.slice(index + 1)]
+ 
+                return {data: newArr}
+             })
         }
         this.toggleLike = (id) => {
             this.setState(({data}) => {
