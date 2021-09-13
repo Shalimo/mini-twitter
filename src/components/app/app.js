@@ -18,11 +18,12 @@ const AppBlock = styled.div`
 export default class App extends Component { // компонент с приложением
     constructor(props) {
         super(props);
+        this.maxId = 4;
         this.state = {
             data : [
-                {label: 'Going to learn React', important: false, id: 'awdaw'},
-                {label: 'That is so good', important: false, id: 'wads'},
-                {label: 'I need a break...', important: false, id: 'scxc'}
+                {label: 'Going to learn React', important: false, like: false, id: 1},
+                {label: 'That is so good', important: false, like: false, id: 2},
+                {label: 'I need a break...', important: false, like: false, id: 3}
             ]
         }
         this.deleteItem = (id) => {
@@ -30,21 +31,56 @@ export default class App extends Component { // компонент с прило
                 data : data.filter(item => item.id !== id)
             }))
         }
+        this.addItem = (body) => {
+            const newItem = {
+                label: body,
+                important: false,
+                id: this.maxId++
+            }
+            this.setState(({data}) => {
+                const newArr = [...data, newItem];
+                return {
+                    data : newArr
+                }
+            })
+        }
+        this.toggleImportant = (id) => {
+            console.log(`Important ${id}`);
+        }
+        this.toggleLike = (id) => {
+            this.setState(({data}) => {
+               const index = data.findIndex(elem => elem.id === id);
+               const oldObj = data[index];
+               const newObj = {...oldObj, like : !oldObj.like}
+               const newArr = [...data.slice(0, index), newObj, ...data.slice(index + 1)]
+
+               return {data: newArr}
+            })
+        }
 
     }
 
     render() {
+        const {data} = this.state;
+        const likedPosts = data.filter(item => item.like).length;
+        const allPosts = data.length;
+
         return (
             <AppBlock>
-                <AppHeader/>
+                <AppHeader
+                likedPosts={likedPosts}
+                allPosts={allPosts}/>
                 <div className="search-panel d-flex">
                 <SearchPanel/>
                 <PostStatusFilter/>
                 </div>
                 <PostList 
                     posts={this.state.data}
-                    deleted={this.deleteItem}/>
-                <PostAddForm/>
+                    deleted={this.deleteItem}
+                    toggledImportant={this.toggleImportant}
+                    toggledLike={this.toggleLike}/>
+                <PostAddForm
+                    added={this.addItem}/>
             </AppBlock>
         )
     }
