@@ -25,7 +25,8 @@ export default class App extends Component { // компонент с прило
                 {label: 'That is so good', important: false, like: false, id: 2},
                 {label: 'I need a break...', important: false, like: false, id: 3}
             ],
-            term: ''
+            term: '',
+            filter: 'all'
         }
         this.deleteItem = (id) => {
             this.setState(({data}) => ({
@@ -72,15 +73,25 @@ export default class App extends Component { // компонент с прило
         this.updateSearch = (text) => {
             this.setState({term: text});
         }
+        this.filterPost = (items, filter) => {
+            if (filter === 'like') {
+                return items.filter(item => item.like)
+            } else {
+                return items
+            }
+        }
+        this.filterSelect = (searchFilter) => {
+            this.setState({filter: searchFilter});
+        }
 
     }
 
     render() {
-        const {data, term} = this.state;
+        const {data, term, filter} = this.state;
         const likedPosts = data.filter(item => item.like).length;
         const allPosts = data.length;
 
-        const visiblePosts = this.searchPost(data, term);
+        const visiblePosts = this.filterPost(this.searchPost(data, term), filter);
 
         return (
             <AppBlock>
@@ -90,7 +101,9 @@ export default class App extends Component { // компонент с прило
                 <div className="search-panel d-flex">
                 <SearchPanel
                 onUpdateSearch={this.updateSearch}/>
-                <PostStatusFilter/>
+                <PostStatusFilter
+                filter={filter}
+                onFilterSelect={this.filterSelect}/>
                 </div>
                 <PostList 
                     posts={visiblePosts}
