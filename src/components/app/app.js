@@ -24,7 +24,8 @@ export default class App extends Component { // компонент с прило
                 {label: 'Going to learn React', important: false, like: false, id: 1},
                 {label: 'That is so good', important: false, like: false, id: 2},
                 {label: 'I need a break...', important: false, like: false, id: 3}
-            ]
+            ],
+            term: ''
         }
         this.deleteItem = (id) => {
             this.setState(({data}) => ({
@@ -32,16 +33,11 @@ export default class App extends Component { // компонент с прило
             }))
         }
         this.addItem = (body) => {
-            const newItem = {
-                label: body,
-                important: false,
-                id: this.maxId++
-            }
+            const newItem = {label: body, important: false, like: false, id: this.maxId++};
             this.setState(({data}) => {
                 const newArr = [...data, newItem];
-                return {
-                    data : newArr
-                }
+                console.log(data);
+                return {data: newArr}
             })
         }
         this.toggleImportant = (id) => {
@@ -64,13 +60,27 @@ export default class App extends Component { // компонент с прило
                return {data: newArr}
             })
         }
+        this.searchPost = (items, term) => {
+            if (term.length === 0) {
+                return items
+            }
+
+            return items.filter((item) => {
+                return item.label.indexOf(term) > -1; 
+            });
+        }
+        this.updateSearch = (text) => {
+            this.setState({term: text});
+        }
 
     }
 
     render() {
-        const {data} = this.state;
+        const {data, term} = this.state;
         const likedPosts = data.filter(item => item.like).length;
         const allPosts = data.length;
+
+        const visiblePosts = this.searchPost(data, term);
 
         return (
             <AppBlock>
@@ -78,11 +88,12 @@ export default class App extends Component { // компонент с прило
                 likedPosts={likedPosts}
                 allPosts={allPosts}/>
                 <div className="search-panel d-flex">
-                <SearchPanel/>
+                <SearchPanel
+                onUpdateSearch={this.updateSearch}/>
                 <PostStatusFilter/>
                 </div>
                 <PostList 
-                    posts={this.state.data}
+                    posts={visiblePosts}
                     deleted={this.deleteItem}
                     toggledImportant={this.toggleImportant}
                     toggledLike={this.toggleLike}/>
