@@ -17,6 +17,7 @@ export default class PostAddForm extends Component {
             this.setState({text: ""});
         }
     }
+
     render() {
         return (
             <form 
@@ -37,6 +38,5 @@ export default class PostAddForm extends Component {
             </form>
         )
     }
-   
 }
 

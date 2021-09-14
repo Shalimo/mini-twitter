@@ -9,11 +9,13 @@ export default class SearchPanel extends Component {
             term: ""
         }
         this.onUpdateSearch = (e) => {
+            const {onUpdateSearch} = this.props;
             const term = e.target.value;
             this.setState({term: term});
-            this.props.onUpdateSearch(term);
+            onUpdateSearch(term);
         }
     }
+    
     render() {
         return (
             <input

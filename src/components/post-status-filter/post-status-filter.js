@@ -11,6 +11,7 @@ export default class PostStatusFilter extends Component {
             {name: 'like', label: 'Понравилось'}
         ]
     }
+
     render() {
         const {filter, onFilterSelect} = this.props;
         const buttons = this.buttons.map(({name, label}) => {
@@ -20,6 +21,7 @@ export default class PostStatusFilter extends Component {
                 <Button onClick={() => onFilterSelect(name)} key={name} color={className}>{label}</Button>
             )
         })
+        
         return (
             <div className="btn-group">
                 {buttons}

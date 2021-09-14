@@ -65,7 +65,7 @@ export default class App extends Component { // компонент с прило
             if (term.length === 0) {
                 return items
             }
-
+            
             return items.filter((item) => {
                 return item.label.indexOf(term) > -1; 
             });
@@ -88,6 +88,7 @@ export default class App extends Component { // компонент с прило
 
     render() {
         const {data, term, filter} = this.state;
+
         const likedPosts = data.filter(item => item.like).length;
         const allPosts = data.length;
 

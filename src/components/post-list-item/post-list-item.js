@@ -4,7 +4,6 @@ import './post-list-item.sass';
 
 export default class PostListItem extends Component {
     
-
     render() {
         const {label, onDelete, onToggleLike, onToggleImportant, important, like} = this.props;
         let classNames = 'app-list-item d-flex justify-content-between';
@@ -30,8 +29,7 @@ export default class PostListItem extends Component {
                     </button>
                     <i className="fa fa-heart"></i>
                 </div>
-            </div>
-    
+            </div> 
         )
     }
 }
